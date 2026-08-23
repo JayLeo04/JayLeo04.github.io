@@ -192,7 +192,6 @@
 
   const revealTargets = Array.from(document.querySelectorAll([
     '.hero-content',
-    '.stream-grid',
     '.archive-header',
     '.archive-empty',
     '.post-list',

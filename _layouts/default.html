@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ site.lang | default: 'zh-CN' }}" class="no-js">
+<html lang="{{ site.lang | default: 'zh-CN' }}" class="no-js page-{{ page.section | default: 'default' }}">
   <head>
     {% include head.html %}
   </head>
@@ -15,4 +15,3 @@
     <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
   </body>
 </html>
-

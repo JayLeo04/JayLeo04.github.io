@@ -1331,7 +1331,6 @@ html.theme-transition .nav-pill {
 @media (prefers-reduced-motion: no-preference) {
   .js.reveal-enabled :is(
     .hero-content,
-    .stream-grid,
     .archive-header,
     .archive-empty,
     .post-list,
@@ -1392,6 +1391,41 @@ html.theme-transition .nav-pill {
 .post-footer a {
   color: var(--muted);
   font-size: 13px;
+}
+
+@media (min-width: 901px) and (min-height: 680px) and (hover: hover) and (pointer: fine) {
+  html.page-home {
+    --home-footer-height: 98px;
+
+    scroll-behavior: auto;
+    scroll-snap-type: y mandatory;
+  }
+
+  html.page-home .hero,
+  html.page-home .streams-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  html.page-home .streams-section {
+    display: grid;
+    min-height: calc(100dvh - var(--home-footer-height));
+    align-items: center;
+    padding-block: clamp(64px, 8vh, 88px);
+    scroll-margin-top: 0;
+  }
+
+  html.page-home .site-footer {
+    min-height: var(--home-footer-height);
+    scroll-snap-align: end;
+    scroll-snap-stop: always;
+  }
+
+  html.page-home .footer-inner {
+    min-height: calc(var(--home-footer-height) - 1px);
+    align-items: center;
+    padding-block: 0;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1577,6 +1611,10 @@ html.theme-transition .nav-pill {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  html.page-home {
+    scroll-snap-type: none;
   }
 
   *,
