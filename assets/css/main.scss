@@ -42,6 +42,12 @@ html[data-theme="dark"] {
   --shadow-small: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: ease-out;
+}
+
 *,
 *::before,
 *::after {
@@ -149,6 +155,15 @@ a {
   pointer-events: none;
 }
 
+.scroll-sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
 .site-header > * {
   pointer-events: auto;
 }
@@ -164,6 +179,22 @@ a {
   background: var(--surface);
   box-shadow: var(--shadow-small);
   backdrop-filter: blur(16px) saturate(120%);
+}
+
+.header-avatar,
+.theme-toggle,
+.main-nav {
+  transform-origin: center top;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.site-header.is-scrolled .header-avatar,
+.site-header.is-scrolled .theme-toggle {
+  transform: translateY(-2px) scale(0.9);
+}
+
+.site-header.is-scrolled .main-nav {
+  transform: translateY(-2px) scale(0.96);
 }
 
 .header-avatar {
@@ -301,6 +332,7 @@ html[data-theme="dark"] .theme-icon-moon {
   border-radius: 34%;
   box-shadow: var(--shadow);
   object-fit: cover;
+  transition: transform 180ms ease-out;
 }
 
 .seal {
@@ -320,6 +352,13 @@ html[data-theme="dark"] .theme-icon-moon {
   font-weight: 700;
   line-height: 1.05;
   transform: rotate(7deg);
+  transition: transform 180ms ease-out;
+}
+
+.portrait-wrap.is-pointer-active .portrait,
+.portrait-wrap.is-pointer-active .seal {
+  transition: none;
+  will-change: transform;
 }
 
 .hero-kicker,
@@ -396,6 +435,11 @@ html[data-theme="dark"] .theme-icon-moon {
   border-radius: 50%;
   color: var(--muted);
   text-decoration: none;
+  transition:
+    transform 160ms ease-out,
+    border-color 160ms ease-out,
+    background-color 160ms ease-out,
+    color 160ms ease-out;
 }
 
 .social-row a:hover {
@@ -466,6 +510,37 @@ html[data-theme="dark"] .theme-icon-moon {
   border-radius: 28px;
   background: color-mix(in srgb, var(--surface-solid) 82%, transparent);
   box-shadow: var(--shadow);
+  isolation: isolate;
+  transition:
+    transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.card-spotlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  display: none;
+  width: 156px;
+  height: 156px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent), transparent 68%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-180px, -180px, 0);
+  transition: opacity 150ms ease-out;
+}
+
+.stream-card.is-pointer-active .card-spotlight {
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+.stream-card > :not(.card-spotlight) {
+  position: relative;
+  z-index: 1;
 }
 
 .stream-card::after {
@@ -477,6 +552,12 @@ html[data-theme="dark"] .theme-icon-moon {
   border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 50%;
   content: "";
+  pointer-events: none;
+}
+
+.stream-card:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 52%, var(--line));
+  box-shadow: 0 20px 58px color-mix(in srgb, var(--accent) 13%, transparent);
 }
 
 .stream-card-top {
@@ -535,8 +616,34 @@ html[data-theme="dark"] .theme-icon-moon {
   text-decoration: none;
 }
 
+.stream-link span {
+  display: inline-block;
+  transition: transform 160ms ease-out;
+}
+
 .stream-link:hover {
   text-decoration: underline;
+}
+
+.stream-link:hover span,
+.stream-link:focus-visible span {
+  transform: translateX(3px);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .card-spotlight {
+    display: block;
+  }
+
+  .stream-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+    box-shadow: 0 24px 64px color-mix(in srgb, var(--accent) 14%, transparent);
+    transform: translateY(-4px);
+  }
+
+  .social-row a:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .mini-post-list {
@@ -1251,6 +1358,19 @@ html[data-theme="dark"] .theme-icon-moon {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.01ms !important;
+  }
+
+  .site-header.is-scrolled .header-avatar,
+  .site-header.is-scrolled .theme-toggle,
+  .site-header.is-scrolled .main-nav,
+  .stream-link:hover span,
+  .stream-link:focus-visible span {
+    transform: none;
   }
 }
 
