@@ -1,0 +1,17 @@
+{
+  "name": "JayLeo04 Notes",
+  "short_name": "JL Notes",
+  "description": "技术与随想。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f8f4",
+  "theme_color": "#3d806c",
+  "icons": [
+    {
+      "src": "/assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

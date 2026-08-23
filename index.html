@@ -1,0 +1,83 @@
+---
+layout: default
+section: home
+description: Liu Jiayi 的技术博客与随想。
+---
+<section class="hero">
+  <div class="hero-wash hero-wash-one" aria-hidden="true"></div>
+  <div class="hero-wash hero-wash-two" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="portrait-wrap">
+      <img class="portrait" src="{{ site.author.avatar | relative_url }}" width="96" height="96" alt="{{ site.author.name }} 的头像">
+      <span class="seal" aria-hidden="true">JL<br>04</span>
+    </div>
+
+    <p class="hero-kicker">TECH · THOUGHTS</p>
+    <h1>Hi, I’m <span>{{ site.author.name }}</span>.</h1>
+    <p class="hero-statement">技术与随想。</p>
+
+    <div class="hero-stats" aria-label="博客内容统计">
+      <span><strong>{{ site.categories.tech | size }}</strong> 技术</span>
+      <i aria-hidden="true"></i>
+      <span><strong>{{ site.categories.thoughts | size }}</strong> 随想</span>
+    </div>
+
+    <div class="social-row">
+      <a href="{{ site.author.url }}" aria-label="在 GitHub 上找到 JayLeo04" rel="me">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.87c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.82c.85 0 1.71.12 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.77c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+      <a href="{{ '/feed.xml' | relative_url }}" aria-label="订阅 RSS">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="5" cy="19" r="2"/><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <a class="scroll-cue" href="#streams" aria-label="查看内容">
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+  </a>
+</section>
+
+<section class="streams-section" id="streams" aria-labelledby="streams-title">
+  <h2 class="sr-only" id="streams-title">内容</h2>
+
+  <div class="stream-grid">
+    <article class="stream-card stream-tech">
+      <div class="stream-card-top">
+        <span class="stream-mark" aria-hidden="true">&lt;/&gt;</span>
+        <span class="stream-count">{{ site.categories.tech | size | prepend: '0' | slice: -2, 2 }}</span>
+      </div>
+      <p class="stream-label">TECH</p>
+      <h3>技术</h3>
+      {% if site.categories.tech.size > 0 %}
+        <ol class="mini-post-list">
+          {% for post in site.categories.tech limit: 3 %}
+            <li><a href="{{ post.url | relative_url }}"><span>{{ post.title }}</span><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%m.%d' }}</time></a></li>
+          {% endfor %}
+        </ol>
+      {% else %}
+        <p class="stream-empty">暂无文章。</p>
+      {% endif %}
+      <a class="stream-link" href="{{ '/tech/' | relative_url }}" aria-label="全部技术文章">全部 <span aria-hidden="true">→</span></a>
+    </article>
+
+    <article class="stream-card stream-thoughts">
+      <div class="stream-card-top">
+        <span class="stream-mark" aria-hidden="true">⌁</span>
+        <span class="stream-count">{{ site.categories.thoughts | size | prepend: '0' | slice: -2, 2 }}</span>
+      </div>
+      <p class="stream-label">THOUGHTS</p>
+      <h3>随想</h3>
+      {% if site.categories.thoughts.size > 0 %}
+        <ol class="mini-post-list">
+          {% for post in site.categories.thoughts limit: 3 %}
+            <li><a href="{{ post.url | relative_url }}"><span>{{ post.title }}</span><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%m.%d' }}</time></a></li>
+          {% endfor %}
+        </ol>
+      {% else %}
+        <p class="stream-empty">暂无文章。</p>
+      {% endif %}
+      <a class="stream-link" href="{{ '/thoughts/' | relative_url }}" aria-label="全部随想">全部 <span aria-hidden="true">→</span></a>
+    </article>
+  </div>
+</section>

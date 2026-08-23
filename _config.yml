@@ -1,0 +1,43 @@
+title: JayLeo04
+tagline: 技术与随想。
+description: Liu Jiayi 的技术博客与随想。
+url: https://jayleo04.github.io
+baseurl: ""
+lang: zh-CN
+timezone: Asia/Shanghai
+
+author:
+  name: Liu Jiayi
+  handle: JayLeo04
+  url: https://github.com/JayLeo04
+  avatar: /assets/img/avatar.jpg
+
+permalink: /:categories/:year/:month/:day/:title/
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+feed:
+  path: feed.xml
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+
+future: false
+strict_front_matter: true

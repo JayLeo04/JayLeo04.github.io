@@ -1,0 +1,22 @@
+{% assign current_section = page.section | default: 'home' %}
+<header class="site-header" data-site-header>
+  <a class="header-avatar" href="{{ '/' | relative_url }}" aria-label="JayLeo04 首页">
+    <img src="{{ site.author.avatar | relative_url }}" width="42" height="42" alt="">
+  </a>
+
+  <nav class="main-nav" aria-label="主要导航">
+    <a href="{{ '/' | relative_url }}"{% if current_section == 'home' %} aria-current="page"{% endif %}>
+      <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></svg>
+      <span>首页</span>
+    </a>
+    <a href="{{ '/tech/' | relative_url }}"{% if current_section == 'tech' %} aria-current="page"{% endif %}>技术</a>
+    <a href="{{ '/thoughts/' | relative_url }}"{% if current_section == 'thoughts' %} aria-current="page"{% endif %}>随想</a>
+    <a href="{{ '/about/' | relative_url }}"{% if current_section == 'about' %} aria-current="page"{% endif %}>关于</a>
+  </nav>
+
+  <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换至深色主题" aria-pressed="false">
+    <svg class="theme-icon theme-icon-sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    <svg class="theme-icon theme-icon-moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.3 15.6A8.5 8.5 0 0 1 8.4 3.7 8.5 8.5 0 1 0 20.3 15.6Z"/></svg>
+  </button>
+</header>
+

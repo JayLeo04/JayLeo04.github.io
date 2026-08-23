@@ -1,0 +1,38 @@
+---
+layout: default
+---
+<div class="reading-progress" data-reading-progress aria-hidden="true"></div>
+
+<article class="post-shell">
+  <header class="post-header">
+    {% if page.category == 'thoughts' %}
+      <a class="post-kind" href="{{ '/thoughts/' | relative_url }}">随想</a>
+    {% else %}
+      <a class="post-kind" href="{{ '/tech/' | relative_url }}">技术</a>
+    {% endif %}
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}<p class="post-deck">{{ page.description }}</p>{% endif %}
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y · %m · %d' }}</time>
+      {% if page.updated %}<span>更新于 {{ page.updated | date: '%Y · %m · %d' }}</span>{% endif %}
+    </div>
+  </header>
+
+  <div class="post-layout">
+    <aside class="toc-card" data-toc hidden>
+      <nav aria-label="本文目录">
+        <p>本文目录</p>
+        <ol data-toc-list></ol>
+      </nav>
+    </aside>
+
+    <div class="prose" data-prose>
+      {{ content }}
+    </div>
+  </div>
+
+  <footer class="post-footer">
+    <span class="seal seal-small" aria-hidden="true">JL<br>04</span>
+    <a href="{{ '/' | relative_url }}">首页</a>
+  </footer>
+</article>

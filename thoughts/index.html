@@ -1,0 +1,34 @@
+---
+layout: default
+title: 随想
+section: thoughts
+description: JayLeo04 的随想。
+permalink: /thoughts/
+---
+<section class="archive-page">
+  <header class="archive-header">
+    <p class="archive-kicker">THOUGHTS</p>
+    <h1>随想</h1>
+  </header>
+
+  {% if site.categories.thoughts.size > 0 %}
+    <ol class="post-list">
+      {% for post in site.categories.thoughts %}
+        <li>
+          <a href="{{ post.url | relative_url }}">
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+            <div><h2>{{ post.title }}</h2>{% if post.description %}<p>{{ post.description }}</p>{% endif %}</div>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ol>
+  {% else %}
+    <div class="archive-empty">
+      <span class="archive-zero" aria-hidden="true">0</span>
+      <div>
+        <h2>暂无文章。</h2>
+      </div>
+    </div>
+  {% endif %}
+</section>
