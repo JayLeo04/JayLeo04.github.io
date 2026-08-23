@@ -16,7 +16,7 @@ permalink: /math/
       {% for post in site.categories.math %}
         <li>
           <a href="{{ post.url | relative_url }}">
-            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.display_date | default: post.date | date: '%Y.%m.%d' }}</time>
             <div><h2>{{ post.title }}</h2>{% if post.description %}<p>{{ post.description }}</p>{% endif %}</div>
             <span aria-hidden="true">↗</span>
           </a>
