@@ -1,5 +1,6 @@
 ---
 layout: post
+date: 2026-08-24 00:30:00 +0800
 title: 硬币序列中的模式等待、竞争与博弈
 description: 从模式自重叠与前缀自动机出发，推导硬币序列的等待时间、竞争概率、Penney 游戏与 minimax 结构。
 category: math
