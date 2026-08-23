@@ -2,7 +2,7 @@
 layout: default
 title: 关于
 section: about
-description: 关于 Liu Jiayi。
+description: Liu Jiayi 的个人经历。
 permalink: /about/
 ---
 <section class="about-page">
@@ -17,7 +17,29 @@ permalink: /about/
   </div>
 
   <div class="about-copy">
-    <p class="about-lead">上海交通大学学生。</p>
+    <ol class="profile-timeline" aria-label="个人经历">
+      <li>
+        <p class="timeline-period"><time datetime="2026-04">2026.04</time><span>—</span>至今</p>
+        <div class="timeline-detail">
+          <h2>MiniMax</h2>
+          <p>模型评测</p>
+        </div>
+      </li>
+      <li>
+        <p class="timeline-period"><time datetime="2025-06">2025.06</time><span>—</span><time datetime="2025-09">2025.09</time></p>
+        <div class="timeline-detail">
+          <h2>腾讯 IEG</h2>
+          <p>后台开发</p>
+        </div>
+      </li>
+      <li>
+        <p class="timeline-period"><time datetime="2022-08">2022.08</time><span>—</span><time datetime="2026-06">2026.06</time></p>
+        <div class="timeline-detail">
+          <h2>上海交通大学</h2>
+          <p>软件学院</p>
+        </div>
+      </li>
+    </ol>
     <a class="text-link" href="{{ site.author.url }}" rel="me">GitHub <span aria-hidden="true">↗</span></a>
   </div>
 </section>

@@ -451,7 +451,7 @@ html[data-theme="dark"] .theme-icon-moon {
 
 .stream-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -724,24 +724,53 @@ html[data-theme="dark"] .theme-icon-moon {
 .about-copy {
   padding-top: 130px;
   color: var(--muted);
-  font-size: 17px;
 }
 
-.about-copy p {
-  margin: 0 0 1.5em;
-  text-wrap: pretty;
+.profile-timeline {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
 }
 
-.about-copy .about-lead {
+.profile-timeline li {
+  display: grid;
+  grid-template-columns: 138px 1fr;
+  gap: 24px;
+  align-items: start;
+  padding: 25px 0 27px;
+  border-bottom: 1px solid var(--line);
+}
+
+.timeline-period {
+  display: flex;
+  gap: 4px;
+  margin: 5px 0 0;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.timeline-detail h2 {
+  margin: 0;
   color: var(--ink);
   font-family: var(--display);
-  font-size: clamp(1.5rem, 3vw, 2.15rem);
-  line-height: 1.4;
+  font-size: 1.38rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.timeline-detail p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .text-link {
   display: inline-block;
-  margin-top: 12px;
+  margin-top: 32px;
   color: var(--accent-strong);
   font-weight: 650;
   text-decoration: none;
@@ -1057,6 +1086,18 @@ html[data-theme="dark"] .theme-icon-moon {
     max-width: 650px;
     padding-top: 0;
   }
+
+  .profile-timeline li {
+    grid-template-columns: 128px 1fr;
+  }
+
+  .stream-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stream-card:last-child {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1107,6 +1148,15 @@ html[data-theme="dark"] .theme-icon-moon {
     filter: blur(54px);
   }
 
+  .profile-timeline li {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .timeline-period {
+    margin-top: 0;
+  }
+
   .portrait {
     width: 84px;
     height: 84px;
@@ -1127,6 +1177,10 @@ html[data-theme="dark"] .theme-icon-moon {
 
   .stream-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stream-card:last-child {
+    grid-column: auto;
   }
 
   .stream-card {

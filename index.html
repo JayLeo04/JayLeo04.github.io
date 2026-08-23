@@ -1,7 +1,7 @@
 ---
 layout: default
 section: home
-description: Liu Jiayi 的技术博客与随想。
+description: Liu Jiayi 的技术、数学与随想。
 ---
 <section class="hero">
   <div class="hero-wash hero-wash-one" aria-hidden="true"></div>
@@ -13,12 +13,14 @@ description: Liu Jiayi 的技术博客与随想。
       <span class="seal" aria-hidden="true">JL<br>04</span>
     </div>
 
-    <p class="hero-kicker">TECH · THOUGHTS</p>
+    <p class="hero-kicker">TECH · MATH · THOUGHTS</p>
     <h1>Hi, I’m <span>{{ site.author.name }}</span>.</h1>
-    <p class="hero-statement">技术与随想。</p>
+    <p class="hero-statement">技术、数学与随想。</p>
 
     <div class="hero-stats" aria-label="博客内容统计">
       <span><strong>{{ site.categories.tech | size }}</strong> 技术</span>
+      <i aria-hidden="true"></i>
+      <span><strong>{{ site.categories.math | size }}</strong> 数学</span>
       <i aria-hidden="true"></i>
       <span><strong>{{ site.categories.thoughts | size }}</strong> 随想</span>
     </div>
@@ -59,6 +61,25 @@ description: Liu Jiayi 的技术博客与随想。
         <p class="stream-empty">暂无文章。</p>
       {% endif %}
       <a class="stream-link" href="{{ '/tech/' | relative_url }}" aria-label="全部技术文章">全部 <span aria-hidden="true">→</span></a>
+    </article>
+
+    <article class="stream-card stream-math">
+      <div class="stream-card-top">
+        <span class="stream-mark" aria-hidden="true">∑</span>
+        <span class="stream-count">{{ site.categories.math | size | prepend: '0' | slice: -2, 2 }}</span>
+      </div>
+      <p class="stream-label">MATH</p>
+      <h3>数学</h3>
+      {% if site.categories.math.size > 0 %}
+        <ol class="mini-post-list">
+          {% for post in site.categories.math limit: 3 %}
+            <li><a href="{{ post.url | relative_url }}"><span>{{ post.title }}</span><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%m.%d' }}</time></a></li>
+          {% endfor %}
+        </ol>
+      {% else %}
+        <p class="stream-empty">暂无文章。</p>
+      {% endif %}
+      <a class="stream-link" href="{{ '/math/' | relative_url }}" aria-label="全部数学文章">全部 <span aria-hidden="true">→</span></a>
     </article>
 
     <article class="stream-card stream-thoughts">

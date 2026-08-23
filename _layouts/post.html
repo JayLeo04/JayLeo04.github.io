@@ -7,6 +7,8 @@ layout: default
   <header class="post-header">
     {% if page.category == 'thoughts' %}
       <a class="post-kind" href="{{ '/thoughts/' | relative_url }}">随想</a>
+    {% elsif page.category == 'math' %}
+      <a class="post-kind" href="{{ '/math/' | relative_url }}">数学</a>
     {% else %}
       <a class="post-kind" href="{{ '/tech/' | relative_url }}">技术</a>
     {% endif %}

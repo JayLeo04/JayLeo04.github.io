@@ -10,6 +10,7 @@
       <span>首页</span>
     </a>
     <a href="{{ '/tech/' | relative_url }}"{% if current_section == 'tech' %} aria-current="page"{% endif %}>技术</a>
+    <a href="{{ '/math/' | relative_url }}"{% if current_section == 'math' %} aria-current="page"{% endif %}>数学</a>
     <a href="{{ '/thoughts/' | relative_url }}"{% if current_section == 'thoughts' %} aria-current="page"{% endif %}>随想</a>
     <a href="{{ '/about/' | relative_url }}"{% if current_section == 'about' %} aria-current="page"{% endif %}>关于</a>
   </nav>
@@ -19,4 +20,3 @@
     <svg class="theme-icon theme-icon-moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.3 15.6A8.5 8.5 0 0 1 8.4 3.7 8.5 8.5 0 1 0 20.3 15.6Z"/></svg>
   </button>
 </header>
-
