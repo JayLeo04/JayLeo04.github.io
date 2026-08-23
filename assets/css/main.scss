@@ -1106,6 +1106,7 @@ html.theme-transition .nav-pill {
   margin: 0 auto;
   color: var(--muted);
   font-size: 18px;
+  line-height: 1.7;
   text-wrap: pretty;
 }
 
@@ -1133,6 +1134,7 @@ html.theme-transition .nav-pill {
   grid-area: content;
   min-width: 0;
   font-size: 17px;
+  font-kerning: normal;
   line-height: 1.88;
 }
 
@@ -1165,6 +1167,29 @@ html.theme-transition .nav-pill {
 .prose p,
 .prose li {
   text-wrap: pretty;
+}
+
+.prose p {
+  margin: 1.15em 0;
+}
+
+.prose ul,
+.prose ol {
+  margin: 1.25em 0;
+  padding-left: 1.45em;
+}
+
+.prose li + li {
+  margin-top: 0.42em;
+}
+
+.prose li::marker {
+  color: var(--accent);
+  font-weight: 650;
+}
+
+.prose :where(p, li, dd) {
+  overflow-wrap: anywhere;
 }
 
 .prose a {
@@ -1249,6 +1274,48 @@ html.theme-transition .nav-pill {
   border-radius: 18px;
 }
 
+.prose table {
+  width: 100%;
+  margin: 2em 0;
+  border-collapse: collapse;
+  font-size: 0.92em;
+  line-height: 1.65;
+}
+
+.prose th,
+.prose td {
+  padding: 0.7em 0.85em;
+  border: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--paper-deep);
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.prose tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--surface-solid) 56%, transparent);
+}
+
+.prose mjx-container {
+  color: var(--ink);
+}
+
+.prose mjx-container[display="true"] {
+  max-width: 100%;
+  margin: 1.6em 0 !important;
+  padding: 0.35em 0 0.55em;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-color: var(--line) transparent;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
 .prose hr {
   width: 34%;
   margin: 3.4em auto;
@@ -1260,11 +1327,16 @@ html.theme-transition .nav-pill {
   position: sticky;
   top: 112px;
   grid-area: toc;
+  max-height: calc(100dvh - 136px);
   padding: 19px;
+  overflow-y: auto;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: var(--surface);
   font-size: 12px;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--line) transparent;
+  scrollbar-width: thin;
 }
 
 .toc-card p {
@@ -1437,6 +1509,7 @@ html.theme-transition .nav-pill {
 
   .toc-card {
     position: static;
+    max-height: min(56dvh, 480px);
     margin-bottom: 40px;
   }
 
@@ -1589,8 +1662,43 @@ html.theme-transition .nav-pill {
     margin-bottom: 54px;
   }
 
+  .post-header h1 {
+    font-size: clamp(2.15rem, 10.5vw, 3.2rem);
+    line-height: 1.14;
+  }
+
+  .post-deck {
+    font-size: 16px;
+  }
+
+  .post-meta {
+    flex-wrap: wrap;
+  }
+
   .prose {
     font-size: 16px;
+    line-height: 1.84;
+  }
+
+  .prose h2 {
+    font-size: 1.7rem;
+  }
+
+  .prose h3 {
+    font-size: 1.32rem;
+  }
+
+  .prose table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose td {
+    min-width: 8.5rem;
+    white-space: normal;
   }
 }
 
@@ -1660,5 +1768,10 @@ html.theme-transition .nav-pill {
   .post-shell {
     width: 100%;
     padding: 0;
+  }
+
+  .prose mjx-container[display="true"],
+  .prose table {
+    overflow: visible;
   }
 }
