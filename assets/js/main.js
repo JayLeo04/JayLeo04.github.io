@@ -24,14 +24,58 @@
 
   applyTheme(root.dataset.theme || 'light');
 
+  const animateThemeIcon = () => {
+    if (!themeButton || reducedMotion.matches || typeof themeButton.animate !== 'function') return;
+    const selector = root.dataset.theme === 'dark' ? '.theme-icon-moon' : '.theme-icon-sun';
+    const icon = themeButton.querySelector(selector);
+    icon?.animate([
+      { opacity: 0, transform: 'rotate(-22deg) scale(0.72)' },
+      { opacity: 1, transform: 'rotate(0deg) scale(1)' }
+    ], {
+      duration: 260,
+      easing: 'cubic-bezier(0.16, 1, 0.3, 1)'
+    });
+  };
+
   themeButton?.addEventListener('click', () => {
     const update = () => applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
     if (!reducedMotion.matches && typeof document.startViewTransition === 'function') {
-      document.startViewTransition(update);
+      root.classList.add('theme-transition');
+      const transition = document.startViewTransition(update);
+      const finish = () => {
+        root.classList.remove('theme-transition');
+        animateThemeIcon();
+      };
+      transition.finished.then(finish, finish);
     } else {
       update();
+      animateThemeIcon();
     }
   });
+
+  const navigation = document.querySelector('[data-main-nav]');
+  const navPill = document.querySelector('[data-nav-pill]');
+  if (navigation && navPill) {
+    let navFrame = 0;
+    const positionNavPill = () => {
+      navFrame = 0;
+      const activeLink = navigation.querySelector('a[aria-current="page"]');
+      if (!activeLink) return;
+      const navigationBounds = navigation.getBoundingClientRect();
+      const activeBounds = activeLink.getBoundingClientRect();
+      const x = activeBounds.left - navigationBounds.left + (activeBounds.width - 14) / 2;
+      const y = activeBounds.bottom - navigationBounds.top - 3;
+      navPill.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      navPill.hidden = false;
+    };
+    const scheduleNavPill = () => {
+      if (navFrame) return;
+      navFrame = window.requestAnimationFrame(positionNavPill);
+    };
+    positionNavPill();
+    window.addEventListener('resize', scheduleNavPill, { passive: true });
+    if ('ResizeObserver' in window) new ResizeObserver(scheduleNavPill).observe(navigation);
+  }
 
   const header = document.querySelector('[data-site-header]');
   if (header && 'IntersectionObserver' in window) {
@@ -146,6 +190,60 @@
     node.textContent = String(new Date().getFullYear());
   });
 
+  const revealTargets = Array.from(document.querySelectorAll([
+    '.hero-content',
+    '.stream-grid',
+    '.archive-header',
+    '.archive-empty',
+    '.post-list',
+    '.about-intro',
+    '.profile-timeline',
+    '.post-header',
+    '.post-layout',
+    '.not-found-page'
+  ].join(',')));
+  const revealsEnabled = root.classList.contains('reveal-enabled');
+
+  if (revealTargets.length && revealsEnabled && !reducedMotion.matches && 'IntersectionObserver' in window) {
+    root.classList.add('reveal-booted');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-revealing');
+        window.requestAnimationFrame(() => entry.target.classList.add('is-visible'));
+        revealObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    revealTargets.forEach((target, index) => {
+      target.classList.add('reveal-group');
+      target.style.transitionDelay = `${Math.min(index * 55, 110)}ms`;
+      const settleReveal = (event) => {
+        if (event.target !== target || event.propertyName !== 'transform') return;
+        target.classList.remove('is-revealing');
+        target.classList.add('is-settled');
+        target.style.removeProperty('transition-delay');
+        target.removeEventListener('transitionend', settleReveal);
+      };
+      target.addEventListener('transitionend', settleReveal);
+      window.requestAnimationFrame(() => {
+        target.classList.add('is-reveal-ready');
+        revealObserver.observe(target);
+      });
+    });
+
+    reducedMotion.addEventListener?.('change', () => {
+      if (!reducedMotion.matches) return;
+      revealObserver.disconnect();
+      revealTargets.forEach((target) => {
+        target.classList.remove('is-revealing');
+        target.classList.add('is-visible', 'is-settled');
+      });
+    }, { once: true });
+  } else if (revealsEnabled) {
+    root.classList.remove('reveal-enabled');
+  }
+
   const post = document.querySelector('.post-shell');
   const progress = document.querySelector('[data-reading-progress]');
   if (post && progress) {
@@ -182,6 +280,7 @@
   if (prose && toc && tocList) {
     const headings = Array.from(prose.querySelectorAll('h2, h3'));
     if (headings.length >= 2) {
+      const links = new Map();
       headings.forEach((heading, index) => {
         if (!heading.id) heading.id = `section-${index + 1}`;
         const item = document.createElement('li');
@@ -191,8 +290,26 @@
         link.textContent = heading.textContent || `第 ${index + 1} 节`;
         item.append(link);
         tocList.append(item);
+        links.set(heading.id, link);
       });
       toc.hidden = false;
+
+      const setCurrentHeading = (id) => {
+        links.forEach((link, headingId) => {
+          if (headingId === id) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      };
+      setCurrentHeading(headings[0].id);
+
+      if ('IntersectionObserver' in window) {
+        const headingObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) setCurrentHeading(entry.target.id);
+          });
+        }, { rootMargin: '-18% 0px -68% 0px' });
+        headings.forEach((heading) => headingObserver.observe(heading));
+      }
     }
   }
 
@@ -215,6 +332,10 @@
         await navigator.clipboard.writeText(pre.innerText);
         button.textContent = '已复制';
         button.setAttribute('aria-label', '代码已复制');
+        if (!reducedMotion.matches) {
+          button.classList.remove('is-copied');
+          window.requestAnimationFrame(() => button.classList.add('is-copied'));
+        }
         window.setTimeout(() => {
           button.textContent = '复制';
           button.setAttribute('aria-label', '复制代码');
@@ -223,6 +344,7 @@
         button.textContent = '复制失败';
       }
     });
+    button.addEventListener('animationend', () => button.classList.remove('is-copied'));
     shell.append(button);
   });
 })();

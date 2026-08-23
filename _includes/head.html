@@ -49,6 +49,19 @@
   (() => {
     const root = document.documentElement;
     root.classList.remove('no-js');
+    root.classList.add('js');
+    let sameSiteNavigation = false;
+    try {
+      sameSiteNavigation = Boolean(document.referrer) && new URL(document.referrer).origin === window.location.origin;
+    } catch (_) {
+      // Treat an invalid referrer like a direct visit.
+    }
+    if (!sameSiteNavigation && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      root.classList.add('reveal-enabled');
+      window.setTimeout(() => {
+        if (!root.classList.contains('reveal-booted')) root.classList.remove('reveal-enabled');
+      }, 1000);
+    }
     try {
       const saved = localStorage.getItem('jl-theme');
       const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
